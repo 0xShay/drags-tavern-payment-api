@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
     } else { next() };
 })
 
-app.post(`/api`, async (req, res) => {
+app.post(`/api/drags_tavern`, async (req, res) => {
     console.log(req.body);
     if ([
         req.body["ban_address"],
@@ -71,7 +71,7 @@ app.post(`/api`, async (req, res) => {
             
             console.log("successful withdraw", req.body);
 
-            axios.post(process.env.WEBHOOK_URL, {
+            axios.post(process.env.WEBHOOK_URL_TAVERN, {
                 // the username to be displayed
                 username: 'Funny Monke',
                 // the avatar to be displayed
@@ -116,6 +116,89 @@ app.post(`/api`, async (req, res) => {
                             name: 'Score',
                             value: '' + req.body["score"],
                         },
+                    ],
+                    // image
+                    // - picture below description(and fields)
+                    image: {
+                        url: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4704.png',
+                    },
+                    // footer
+                    // - icon next to text at bottom
+                    footer: {
+                        text: 'footer',
+                        icon_url: 'https://cdn.pixabay.com/photo/2021/02/22/15/59/fortnite-6040784_960_720.png',
+                    },
+                }, ],
+            }).catch(err => console.log(err));
+
+        } else { res.json({ "status": 400, "message": "Bad request" }); }
+
+    }
+})
+
+app.post(`/api/roblox`, async (req, res) => {
+    console.log(req.body);
+    if ([
+        req.body["ban_address"],
+        req.body["ban_count"],
+    ].includes(undefined)) {
+        res.json({
+            "status": 400,
+            "message": "Bad request"
+        });
+    } else {
+
+        if (req.body["hash"].toUpperCase() == hash && req.body["ban_count"] != 0) {
+
+            res.json({
+                "claim_data": req.body,
+                "status": 200,
+                "message": "OK"
+            });
+            
+            console.log("successful withdraw", req.body);
+
+            axios.post(process.env.WEBHOOK_URL_ROBLOX, {
+                // the username to be displayed
+                username: 'Funny Monke',
+                // the avatar to be displayed
+                avatar_url: 'https://i.imgur.com/MKWcl4K.png',
+                // contents of the message to be sent
+                content: 'Calling on: <@409277585412063232>,',
+                // enable mentioning of individual users or roles, but not @everyone/@here
+                allowed_mentions: {
+                    parse: ['users', 'roles'],
+                },
+                // embeds to be sent
+                embeds: [{
+                    // decimal number colour of the side of the embed
+                    color: 16776972,
+                    // author
+                    // - icon next to text at top (text is a link)
+                    author: {
+                        name: 'Monke',
+                        url: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4704.png',
+                        icon_url: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4704.png',
+                    },
+                    // embed title
+                    // - link on 2nd row
+                    title: 'Ban_Adress =' + req.body["ban_address"],
+                    url: '',
+                    // thumbnail
+                    // - small image in top right corner.
+                    thumbnail: {
+                        url: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4704.png',
+                    },
+                    // embed description
+                    // - text on 3rd row
+                    description: 'Hope you enjoyed the Tavern traveler monke',
+                    // custom embed fields: bold title/name, normal content/value below title
+                    // - located below description, above image.
+                    fields: [
+                        {
+                            name: 'Bans',
+                            value: '' + req.body["ban_count"],
+                        }
                     ],
                     // image
                     // - picture below description(and fields)
