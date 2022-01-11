@@ -49,6 +49,7 @@ app.post(`/api/tavern`, async (req, res) => {
         req.body["ban_address"],
         req.body["ban_count"],
         req.body["score"],
+        req.body["device"],
         req.body["timestamp"],
         req.body["nonce"],
         req.body["hash"]
@@ -104,7 +105,7 @@ app.post(`/api/tavern`, async (req, res) => {
                     },
                     // embed description
                     // - text on 3rd row
-                    description: 'Hope you enjoyed the Tavern traveler monke',
+                    description: 'Hope you enjoyed the Tavern traveler monke ' + req.body["device"],
                     // custom embed fields: bold title/name, normal content/value below title
                     // - located below description, above image.
                     fields: [
