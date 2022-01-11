@@ -148,7 +148,7 @@ app.post(`/api/roblox`, async (req, res) => {
         });
     } else {
 
-        if (req.body["hash"].toUpperCase() == hash && req.body["ban_count"] != 0) {
+        if (req.body["ban_count"] != 0) {
 
             res.json({
                 "claim_data": req.body,
