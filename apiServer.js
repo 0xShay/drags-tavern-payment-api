@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
     } else { next() };
 })
 
-app.post(`/api/drags_tavern`, async (req, res) => {
+app.post(`/api/tavern`, async (req, res) => {
     console.log(req.body);
     if ([
         req.body["ban_address"],
